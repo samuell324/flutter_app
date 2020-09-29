@@ -42,10 +42,20 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                "Guess the number between 1 and 100",
+                'Guess the number between 1 and 100',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: 'Enter a number',
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            )
           ],
         ),
       ),
