@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
@@ -81,13 +81,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   void guess() {
-    void makeToast() {
+    int guess = int.parse(guessNumber.text);
+
+    void makeToast(String feedback) {
       Fluttertoast.showToast(
-          msg: 'Toast',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          fontSize: 16,
-          timeInSecForIosWeb: 1);
+        msg: feedback,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        fontSize: 35,
+        textColor: Colors.black,
+      );
     }
+
+    if (guess > randomNumber) {
+      makeToast("Lower");
+    } else if (guess < randomNumber) {
+      makeToast("Higher");
+    } else {
+      makeToast("Win");
+    }
+    print('Random number is $randomNumber');
   }
 }
