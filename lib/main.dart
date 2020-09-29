@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:fluttertoast/fluttertoast.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -66,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   'Guess',
                   style: TextStyle(fontSize: 20),
                 ),
-                onPressed: () {},
+                onPressed: guess,
                 color: Colors.amberAccent,
                 shape: new RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
@@ -76,5 +78,16 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void guess() {
+    void makeToast() {
+      Fluttertoast.showToast(
+          msg: 'Toast',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          fontSize: 16,
+          timeInSecForIosWeb: 1);
+    }
   }
 }
