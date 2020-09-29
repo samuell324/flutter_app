@@ -29,6 +29,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static Random random = new Random();
   int randomNumber = random.nextInt(100) + 1;
+  final guessNumber = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,7 @@ class _HomePageState extends State<HomePage> {
                   hintText: 'Enter a number',
                 ),
                 keyboardType: TextInputType.number,
+                controller: guessNumber,
               ),
             )
           ],
