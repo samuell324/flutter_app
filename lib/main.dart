@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static Random random = new Random();
-  int randomNumber = random.nextInt(100) + 1;
+  int randomNumber = random.nextInt(100);
 
   final guessNumber = new TextEditingController();
 
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                'Guess the number between 1 and 100',
+                'Guess the number between 0 and 100',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -88,9 +88,24 @@ class _HomePageState extends State<HomePage> {
         msg: feedback,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        fontSize: 35,
+        fontSize: 25,
         textColor: Colors.black,
       );
+    }
+
+    if (guess > 100 || guess < 1) {
+      makeToast("Choose number between 0 and 100");
+      guessNumber.clear();
+      return;
+    }
+
+    bool isEmpty() {
+      return guessNumber.text.isEmpty;
+    }
+
+    if (isEmpty()) {
+      makeToast("Enter the number");
+      return;
     }
 
     if (guess > randomNumber) {
@@ -98,7 +113,7 @@ class _HomePageState extends State<HomePage> {
     } else if (guess < randomNumber) {
       makeToast("Higher");
     } else {
-      makeToast("Win");
+      makeToast("Win, click Restart");
     }
     print('Random number is $randomNumber');
   }
