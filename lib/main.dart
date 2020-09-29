@@ -29,6 +29,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static Random random = new Random();
   int randomNumber = random.nextInt(100) + 1;
+
   final guessNumber = new TextEditingController();
 
   @override
@@ -67,7 +68,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {},
                 color: Colors.amberAccent,
-                shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
               ),
             )
           ],
