@@ -57,6 +57,16 @@ class _HomePageState extends State<HomePage> {
                 keyboardType: TextInputType.number,
                 controller: guessNumber,
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: RaisedButton(
+                child: Text(
+                  'Guess',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {},
+              ),
             )
           ],
         ),
