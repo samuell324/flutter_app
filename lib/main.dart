@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:math';
 void main() {
   runApp(MyApp());
 }
@@ -26,6 +26,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static Random random = new Random();
+  int randomNumber = random.nextInt(100) + 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
