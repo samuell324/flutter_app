@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static Random random = new Random();
-  int randomNumber = random.nextInt(100);
+  int randomNumber = random.nextInt(100) + 1;
 
   final guessNumber = new TextEditingController();
 
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: RaisedButton(
                 child: Text(
                   'Guess',
@@ -73,11 +73,26 @@ class _HomePageState extends State<HomePage> {
                 shape: new RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
               ),
+            ),
+            Container(
+              child: RaisedButton(
+                child: Text(
+                  "Restart",
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: restart,
+              ),
             )
           ],
         ),
       ),
     );
+  }
+
+  void restart() {
+    randomNumber = random.nextInt(100) + 1;
+    print('Number after restart $randomNumber');
+    guessNumber.clear();
   }
 
   void guess() {
@@ -113,7 +128,8 @@ class _HomePageState extends State<HomePage> {
     } else if (guess < randomNumber) {
       makeToast("Higher");
     } else {
-      makeToast("Win, click Restart");
+      makeToast("You win, click Restart");
+      guessNumber.clear();
     }
     print('Random number is $randomNumber');
   }
