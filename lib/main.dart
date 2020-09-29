@@ -63,9 +63,11 @@ class _HomePageState extends State<HomePage> {
               child: RaisedButton(
                 child: Text(
                   'Guess',
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {},
+                color: Colors.amberAccent,
+                shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               ),
             )
           ],
