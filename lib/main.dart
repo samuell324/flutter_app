@@ -102,8 +102,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _awaitFromSecondScreen() async {
-    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
-
+    final result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SecondScreen()));
   }
 
   void restart() {
