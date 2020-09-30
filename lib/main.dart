@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/secondPage.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           ),
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: _awaitFromSecondScreen,
           ),
         ],
         title: Text(widget.title),
@@ -98,6 +99,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void _awaitFromSecondScreen() async {
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
+
   }
 
   void restart() {
