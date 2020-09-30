@@ -40,10 +40,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(icon: Icon(Icons.settings),
-            onPressed: () {},)
+          Container(
+            alignment: Alignment.bottomRight,
+            child: Text("Try № $counter"),
+          ),
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {},
+          ),
         ],
-
         title: Text(widget.title),
       ),
       body: Center(
@@ -88,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: restart,
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -103,14 +108,16 @@ class _HomePageState extends State<HomePage> {
 
   void guess() {
     int guess = int.parse(guessNumber.text);
-    counter ++;
+    setState(() {
+      counter++;
+    });
 
     void makeToast(String feedback) {
       Fluttertoast.showToast(
         msg: feedback,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        fontSize: 25,
+        fontSize: 20,
         textColor: Colors.black,
       );
     }
