@@ -8,6 +8,15 @@ class SecondScreen extends StatefulWidget {
 class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar (
+          title: Text('Setting screen'),
+        ),
+        body: Column(
+          children: [Text("setting screen")],
+        ),
+      ),
+    );
   }
 }
