@@ -31,8 +31,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static Random random = new Random();
-  int randomNumber = random.nextInt(100) + 1;
+  int randomNumber = min + random.nextInt(max - min);
   int counter = 0;
+  static int min = 0;
+  static int max = 100;
+  int resultMax;
 
   final guessNumber = new TextEditingController();
 
@@ -47,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           ),
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: _awaitFromSecondScreen,
+            onPressed: () {_awaitFromSecondScreen(context);}
           ),
         ],
         title: Text(widget.title),
@@ -58,7 +61,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                'Guess the number between 0 and 100',
+                'Guess the number between $min and $max',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -101,13 +104,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _awaitFromSecondScreen() async {
-    final result = await Navigator.push(
+  void _awaitFromSecondScreen(BuildContext context) async {
+    final result1 = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => SecondScreen()));
+
+    setState(() {
+      max = result1;
+      print("Max result is $max");
+    });
   }
 
   void restart() {
-    randomNumber = random.nextInt(100) + 1;
+    randomNumber = min + random.nextInt(max - min);
     print('Number after restart $randomNumber');
     guessNumber.clear();
   }
@@ -128,8 +136,8 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    if (guess > 100 || guess < 1) {
-      makeToast("Choose number between 0 and 100");
+    if (guess > max || guess < min) {
+      makeToast("Choose number between $min and $max");
       guessNumber.clear();
       return;
     }

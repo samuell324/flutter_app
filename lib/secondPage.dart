@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SecondScreen extends StatefulWidget {
@@ -6,6 +7,8 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
+  TextEditingController maxValueController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,34 +22,26 @@ class _SecondScreenState extends State<SecondScreen> {
               children: [
                 Expanded(
                   child: Text(
-                    'Input min value :',
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Expanded(
-                  child: TextField(),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
                     'Input max value: ',
                     style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Expanded(
-                  child: TextField(),
+                  child: TextField(
+                    controller: maxValueController,
+                    keyboardType: TextInputType.number,
+                  ),
                 )
               ],
             ),
             Padding(
               padding: EdgeInsets.all(40),
               child: RaisedButton(
-                onPressed: () {},
+                // ignore: unnecessary_statements
+                onPressed: () {
+                  sendDataBack(context);
+                },
                 child: Text(
                   'Apply changes',
                   style: TextStyle(fontSize: 20),
@@ -60,5 +55,10 @@ class _SecondScreenState extends State<SecondScreen> {
         ),
       ),
     );
+  }
+
+  void sendDataBack(BuildContext context) {
+    int maxSendBack = int.parse(maxValueController.text);
+    Navigator.pop(context, maxSendBack);
   }
 }
