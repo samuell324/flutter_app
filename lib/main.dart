@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_app/appLocalizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String title = 'Guess the number';
+    String title = "Guess the number";
     return MaterialApp(
       title: title,
       theme: ThemeData(primaryColor: Colors.amber),
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         Locale('ru', 'RU'),
       ],
       localizationsDelegates: [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],

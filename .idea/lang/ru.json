@@ -1,8 +1,8 @@
 {
-  "app_bar_string": "Guess the number",
-  "number_of_try_string": "Try № $count",
-  "text_in_main_page_string": "Guess the number between $min and $max",
-  "hint_edittext_string": "Enter a number",
-  "guess_button_string": "Guess",
-  "restart_button_string" : "Restart"
+  "app_bar_string": "Угадай номер",
+  "number_of_try_string": "Попытка № $count",
+  "text_in_main_page_string": "Угадай номер между $min и $max",
+  "hint_edittext_string": "Введи число",
+  "guess_button_string": "Угадать",
+  "restart_button_string" : "Рестарт"
 }
