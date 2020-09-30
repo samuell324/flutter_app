@@ -31,6 +31,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static Random random = new Random();
   int randomNumber = random.nextInt(100) + 1;
+  int counter = 0;
 
   final guessNumber = new TextEditingController();
 
@@ -102,6 +103,7 @@ class _HomePageState extends State<HomePage> {
 
   void guess() {
     int guess = int.parse(guessNumber.text);
+    counter ++;
 
     void makeToast(String feedback) {
       Fluttertoast.showToast(
@@ -135,6 +137,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       makeToast("You win, click Restart");
       guessNumber.clear();
+      counter = 0;
     }
     print('Random number is $randomNumber');
   }
