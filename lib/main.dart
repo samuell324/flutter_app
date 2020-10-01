@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/secondPage.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_app/appLocalizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,11 +15,29 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String title = 'Guess the number';
+    String title = "Guess the number";
     return MaterialApp(
       title: title,
       theme: ThemeData(primaryColor: Colors.amber),
       home: HomePage(title: title),
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ru', 'RU'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
     );
   }
 }
@@ -30,7 +52,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static Random random = new Random();
-  int randomNumber = random.nextInt(100) + 1;
+  int randomNumber = min + random.nextInt(max - min);
+  int counter = 0;
+  static int min = 0;
+  static int max = 100;
+  int resultMax;
+
+  @override
+  void initState() {
+    super.initState();
+    loadCounter();
+  }
 
   final guessNumber = new TextEditingController();
 
@@ -38,6 +70,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Container(
+            alignment: Alignment.bottomRight,
+            child: Text("Try № $counter"),
+          ),
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                _awaitFromSecondScreen(context);
+              }),
+        ],
         title: Text(widget.title),
       ),
       body: Center(
@@ -46,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                'Guess the number between 0 and 100',
+                'Guess the number between $min and $max',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -82,34 +125,56 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: restart,
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
+  void _awaitFromSecondScreen(BuildContext context) async {
+    final result1 = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SecondScreen()));
+
+    setState(() {
+      max = result1;
+      print("Max result is $max");
+    });
+  }
+
   void restart() {
-    randomNumber = random.nextInt(100) + 1;
+    randomNumber = min + random.nextInt(max - min);
     print('Number after restart $randomNumber');
     guessNumber.clear();
   }
 
-  void guess() {
+  loadCounter() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      counter = (preferences.getInt('counter')?? 0);
+    });
+  }
+
+  void guess() async {
     int guess = int.parse(guessNumber.text);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      counter = (pref.getInt('counter') ?? 0) +1;
+      pref.setInt('counter', counter);
+    });
 
     void makeToast(String feedback) {
       Fluttertoast.showToast(
         msg: feedback,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        fontSize: 25,
+        fontSize: 20,
         textColor: Colors.black,
       );
     }
 
-    if (guess > 100 || guess < 1) {
-      makeToast("Choose number between 0 and 100");
+    if (guess > max || guess < min) {
+      makeToast("Choose number between $min and $max");
       guessNumber.clear();
       return;
     }
@@ -130,6 +195,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       makeToast("You win, click Restart");
       guessNumber.clear();
+      counter = 0;
     }
     print('Random number is $randomNumber');
   }
