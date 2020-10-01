@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_app/appLocalizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
       ],
       localeResolutionCallback: (locale, supportedLocales) {
         for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale.languageCode && supportedLocale.countryCode == locale.countryCode) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
             return supportedLocale;
           }
         }
@@ -56,6 +58,12 @@ class _HomePageState extends State<HomePage> {
   static int max = 100;
   int resultMax;
 
+  @override
+  void initState() {
+    super.initState();
+    loadCounter();
+  }
+
   final guessNumber = new TextEditingController();
 
   @override
@@ -68,9 +76,10 @@ class _HomePageState extends State<HomePage> {
             child: Text("Try № $counter"),
           ),
           IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {_awaitFromSecondScreen(context);}
-          ),
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                _awaitFromSecondScreen(context);
+              }),
         ],
         title: Text(widget.title),
       ),
@@ -139,10 +148,19 @@ class _HomePageState extends State<HomePage> {
     guessNumber.clear();
   }
 
-  void guess() {
-    int guess = int.parse(guessNumber.text);
+  loadCounter() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      counter++;
+      counter = (preferences.getInt('counter')?? 0);
+    });
+  }
+
+  void guess() async {
+    int guess = int.parse(guessNumber.text);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      counter = (pref.getInt('counter') ?? 0) +1;
+      pref.setInt('counter', counter);
     });
 
     void makeToast(String feedback) {

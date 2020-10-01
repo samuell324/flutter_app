@@ -24,6 +24,7 @@ dependencies:
   fluttertoast: ^7.1.1
   flutter:
     sdk: flutter
+  shared_preferences: 0.5.12
   flutter_localizations:
     sdk: flutter
 
